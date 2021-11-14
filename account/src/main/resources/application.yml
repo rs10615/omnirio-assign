@@ -1,0 +1,38 @@
+server:
+  port: ${PORT:8100}
+
+spring:
+  application:
+    name: account-service
+
+eureka:
+  instance:
+    #hostname: cloud-feignorder-consume
+    hostname: ${DOMAIN_NAME}
+  client:
+    fetch-registry: true
+    register-with-eureka: false #default true
+
+    serviceUrl:
+      defaultZone: ${SERVICE_REGISTRY_URL:http://localhost:8761/eureka/}
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 160000000
+        readTimeout: 160000000
+
+---
+spring:
+  profiles: heroku
+  application:
+    instance_id: ${DOMAIN_NAME}
+    instanceId: ${DOMAIN_NAME}
+  # cloud:
+  #   client:
+  #     hostname: ${HOSTNAME}
+eureka:
+  instance:
+    # instanceId: ${spring.application.name}:${DOMAIN_NAME:${spring.application.instance_id:${random.value}}}
+    nonSecurePort: 80
